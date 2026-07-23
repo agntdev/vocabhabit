@@ -25,7 +25,7 @@ composer.callbackQuery(/^deck:create:confirm:/, async (ctx) => {
   const userId = String(ctx.from?.id ?? 0);
   createDeck(userId, name);
   ctx.session.step = undefined;
-  await ctx.editMessageText(`✅ "${name}" is ready! Tap "Add Card" to put some words in it.`, {
+  await ctx.editMessageText(`"${name}" is ready! Tap "Add Card" to put some words in it.`, {
     reply_markup: inlineKeyboard([[inlineButton("⬅️ Back to menu", "menu:main")]]),
   });
 });
