@@ -1,19 +1,35 @@
 [
   {
-    "name": "Browse Decks",
+    "name": "Browse Decks empty state",
     "steps": [
       {
+        "send": { "callback": "deck:list" },
         "expect": [
-          {
-            "method": "sendMessage",
-            "payload": {
-              "text": "View and select from existing decks"
-            }
-          }
-        ],
-        "send": {
-          "callback": "deck:list"
-        }
+          { "method": "sendMessage", "payload": { "text": "No decks yet — tap 🃏 Create Deck to make your first one." } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Browse Decks with decks",
+    "steps": [
+      {
+        "send": { "callback": "deck:create" },
+        "expect": [{ "method": "sendMessage" }]
+      },
+      {
+        "send": { "text": "French" },
+        "expect": [{ "method": "sendMessage" }]
+      },
+      {
+        "send": { "callback": "deck:create:confirm:French" },
+        "expect": [{ "method": "editMessageText" }]
+      },
+      {
+        "send": { "callback": "deck:list" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Your decks:" } }
+        ]
       }
     ]
   }

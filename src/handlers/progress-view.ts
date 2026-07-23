@@ -1,17 +1,38 @@
 import { Composer } from "grammy";
+import type { Ctx } from "../bot.js";
+import { inlineButton, inlineKeyboard } from "../toolkit/index.js";
+import { getStats, getDecks } from "../store.js";
 
-// SCAFFOLD — generated from the bot blueprint BEFORE the agent runs.
-// Keep a LIVE registration (.command / .callbackQuery / …) so this feature is
-// never an empty stub. Replace the reply body with real logic + copy; if you
-// change the user-facing text, update tests/specs to match EXACTLY.
-// Do NOT rewrite src/bot.ts — buildBot() already auto-loads this module.
-// Menu: wire this into /start via registerMainMenuItem({ label: "View Progress", data: "progress:view" }) if the toolkit exposes it.
-
-const composer = new Composer();
+const composer = new Composer<Ctx>();
 
 composer.callbackQuery("progress:view", async (ctx) => {
   await ctx.answerCallbackQuery();
-  await ctx.reply("Show learning statistics and streaks");
+  const userId = String(ctx.from?.id ?? 0);
+  const stats = getStats(userId);
+  const decks = getDecks(userId);
+
+  if (stats.total_cards === 0) {
+    await ctx.reply("No cards yet — create a deck and add some words to start tracking progress!", {
+      reply_markup: inlineKeyboard([
+        [inlineButton("🃏 Create Deck", "deck:create")],
+        [inlineButton("⬅️ Back to menu", "menu:main")],
+      ]),
+    });
+    return;
+  }
+
+  const deckLines = decks.map((d) => `  • ${d.name}`).join("\n");
+  const text =
+    `📊 Your Progress\n\n` +
+    `🃏 ${stats.total_cards} total cards across ${decks.length} deck${decks.length === 1 ? "" : "s"}\n` +
+    `📝 ${stats.reviewed_cards} cards reviewed\n` +
+    `🔥 ${stats.streak}-day streak\n` +
+    `📈 ${stats.retention_rate}% retention rate` +
+    (deckLines ? `\n\nDecks:\n${deckLines}` : "");
+
+  await ctx.reply(text, {
+    reply_markup: inlineKeyboard([[inlineButton("⬅️ Back to menu", "menu:main")]]),
+  });
 });
 
 export default composer;

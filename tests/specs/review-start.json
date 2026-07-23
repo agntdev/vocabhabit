@@ -1,19 +1,12 @@
 [
   {
-    "name": "Start Review",
+    "name": "Start Review empty state",
     "steps": [
       {
+        "send": { "callback": "review:start" },
         "expect": [
-          {
-            "method": "sendMessage",
-            "payload": {
-              "text": "Begin a spaced-repetition review session"
-            }
-          }
-        ],
-        "send": {
-          "callback": "review:start"
-        }
+          { "method": "sendMessage", "payload": { "text": "No decks yet — create one to start reviewing!" } }
+        ]
       }
     ]
   }

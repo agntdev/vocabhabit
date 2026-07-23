@@ -1,19 +1,12 @@
 [
   {
-    "name": "View Progress",
+    "name": "View Progress empty state",
     "steps": [
       {
+        "send": { "callback": "progress:view" },
         "expect": [
-          {
-            "method": "sendMessage",
-            "payload": {
-              "text": "Show learning statistics and streaks"
-            }
-          }
-        ],
-        "send": {
-          "callback": "progress:view"
-        }
+          { "method": "sendMessage", "payload": { "text": "No cards yet — create a deck and add some words to start tracking progress!" } }
+        ]
       }
     ]
   }

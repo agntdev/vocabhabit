@@ -1,19 +1,17 @@
 [
   {
-    "name": "Settings",
+    "name": "Settings shows defaults",
     "steps": [
       {
+        "send": { "callback": "settings:open" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Configure daily limits and reminders"
+              "text": "⚙️ Settings\n\nDaily new card limit: 10\nReminder time: 09:00\nTimezone: UTC"
             }
           }
-        ],
-        "send": {
-          "callback": "settings:open"
-        }
+        ]
       }
     ]
   }
