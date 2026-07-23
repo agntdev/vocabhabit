@@ -5,9 +5,9 @@ import { createCard, updateUser, getOrCreateUser, getDeck } from "../store.js";
 
 const composer = new Composer<Ctx>();
 
-composer.on("message:text", async (ctx) => {
+composer.on("message:text", async (ctx, next) => {
   const step = ctx.session.step;
-  if (!step) return;
+  if (!step) return next();
 
   const text = ctx.message.text.trim();
 
