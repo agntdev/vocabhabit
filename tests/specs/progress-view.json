@@ -1,0 +1,20 @@
+[
+  {
+    "name": "View Progress",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Show learning statistics and streaks"
+            }
+          }
+        ],
+        "send": {
+          "callback": "progress:view"
+        }
+      }
+    ]
+  }
+]
