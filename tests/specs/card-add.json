@@ -1,19 +1,12 @@
 [
   {
-    "name": "Add Card",
+    "name": "Add Card empty state",
     "steps": [
       {
+        "send": { "callback": "card:add" },
         "expect": [
-          {
-            "method": "sendMessage",
-            "payload": {
-              "text": "Add a new card to the current deck"
-            }
-          }
-        ],
-        "send": {
-          "callback": "card:add"
-        }
+          { "method": "sendMessage", "payload": { "text": "You need a deck first — create one before adding cards." } }
+        ]
       }
     ]
   }

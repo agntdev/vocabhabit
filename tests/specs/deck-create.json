@@ -1,19 +1,24 @@
 [
   {
-    "name": "Create Deck",
+    "name": "Create Deck flow",
     "steps": [
       {
+        "send": { "callback": "deck:create" },
         "expect": [
-          {
-            "method": "sendMessage",
-            "payload": {
-              "text": "Start creating a new deck"
-            }
-          }
-        ],
-        "send": {
-          "callback": "deck:create"
-        }
+          { "method": "sendMessage", "payload": { "text": "What should we call this deck?" } }
+        ]
+      },
+      {
+        "send": { "text": "Spanish" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Name: \"Spanish\"\n\nCreate this deck?" } }
+        ]
+      },
+      {
+        "send": { "callback": "deck:create:confirm:Spanish" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "\"Spanish\" is ready! Tap \"Add Card\" to put some words in it." } }
+        ]
       }
     ]
   }
